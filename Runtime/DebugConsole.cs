@@ -9,6 +9,8 @@ namespace BrightDebugger
 
         private bool _visible;
         private string _inputString;
+        private static float LINE_HEIGHT = 20f;
+        private string _lastString;
 
         private void Reset()
         {
@@ -42,17 +44,23 @@ namespace BrightDebugger
                 {
                     if(_commandInterpreter.Interpret(_inputString))
                     {
-                        _inputString = string.Empty;
+                        _lastString = _inputString;
                     }
+                    else
+                    {
+                        _lastString = $"[{_inputString}] not a valid command";
+                    }
+                    _inputString = string.Empty;
                 }
             }
 
             var y = 0f;
-            GUI.Box(new Rect(0f, y, Screen.width, 30), "");
+            GUI.Box(new Rect(0f, y, Screen.width, LINE_HEIGHT * 3), "");
             GUI.backgroundColor = new Color(0, 0, 0, 0);
 
+            GUI.Label(new Rect(10, y + 5, Screen.width - 20f, LINE_HEIGHT), _lastString);
             GUI.SetNextControlName("input");
-            _inputString = GUI.TextField(new Rect(10, y + 5f, Screen.width - 20f, 20f), _inputString);
+            _inputString = GUI.TextField(new Rect(10, y + LINE_HEIGHT + 5, Screen.width - 20f, LINE_HEIGHT), _inputString);
             GUI.FocusControl("input");
         
         }
