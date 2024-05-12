@@ -15,7 +15,7 @@ namespace BrightDebugger
 
         public bool Interpret(string inputString)
         {
-            var command = _commands.FirstOrDefault(commandEntry => commandEntry.Id.Equals(inputString.ToLower()));
+            var command = _commands.FirstOrDefault(commandEntry => commandEntry.Id.Equals(inputString.ToLowerInvariant()));
             if (command != null)
             {
                 command.Execute();
